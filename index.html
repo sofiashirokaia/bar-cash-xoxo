@@ -157,6 +157,9 @@ function renderTheory(){const host=$("theoryquiz");if(!host)return;host.innerHTM
 function submitTheory(){let score=0,answered=0;theoryQuestions.forEach((q,i)=>{const selected=document.querySelector('input[name="theory'+i+'"]:checked');const box=$("theoryfeedback"+i);if(selected){answered++;if(Number(selected.value)===q.c)score++;box.textContent=(Number(selected.value)===q.c?"Верно. ":"Неверно. ")+q.e}else box.textContent="Нет ответа. "+q.e});const pass=Math.ceil(theoryQuestions.length*.8);$("theoryresult").innerHTML='<div class="theory-result"><b>Результат: '+score+' из '+theoryQuestions.length+'.</b><br>Ответов дано: '+answered+'. Проходной балл: '+pass+'. '+(score>=pass?"Тест сдан!":"Пока не зачёт — повтори материалы и попробуй ещё раз.")+'</div>'}
 function openTheory(){switchScreen("theory");renderTheory();const el=$("theory");if(el)el.scrollIntoView({behavior:"smooth",block:"start"})}
 
+function shuffleQuestionOrder(list){for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]]}}
+shuffleQuestionOrder(examQuestions);
+shuffleQuestionOrder(theoryQuestions);
 document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>switchScreen(t.dataset.screen));
 $("loginform").addEventListener("submit",event=>{event.preventDefault();loginShift()});
 renderCats();renderProducts();renderCart();renderOpening();renderReceipts();renderExam();renderTheory();
